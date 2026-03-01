@@ -54,6 +54,38 @@ create table detalle_factura_compra(
 );
 
 --Parte Erick
+drop table if exists detalle_venta;
+
+create table detalle_venta(
+	id_detalle_venta int primary key,
+	id_venta int,
+	id_producto int,
+	cantidad int,
+	sub_total decimal(10,2),
+	id_inventario int
+);
+
+drop table if exists proveedor;
+
+create table proveedor(
+	id_proveedor int primary key,
+	nombre varchar(150),
+	telefono varchar(15),
+	correo varchar(150),
+	direccion varchar(200),
+	nit varchar(20),
+	nrc varchar(20),
+	giro varchar(20)
+);
+
+drop table if exists categoria;
+
+create table categoria(
+	id_categoria int primary key,
+	nombre_categoria varchar(100),
+	descripcion varchar(200)
+);
+
 --Parte Stiven
 	DROP TABLE IF EXISTS cliente;
 
