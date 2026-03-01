@@ -170,6 +170,18 @@ ADD CONSTRAINT fk_detalle_factura_compra_inv
 FOREIGN KEY (id_inventario) REFERENCES inventario(id_inventario);
 --Erick
 
+ALTER TABLE detalle_venta
+ADD CONSTRAINT fk_detalle_venta_venta
+FOREIGN KEY (id_venta) REFERENCES venta(id_venta);
+
+ALTER TABLE detalle_venta
+ADD CONSTRAINT fk_detalle_venta_producto
+FOREIGN KEY (id_producto) REFERENCES producto(id_producto);
+
+ALTER TABLE detalle_venta
+ADD CONSTRAINT fk_detalle_venta_inventario
+FOREIGN KEY (id_inventario) REFERENCES inventario(id_inventario);
+
 --Stiven
 
 -- Venta -> Cliente
@@ -183,8 +195,5 @@ ALTER TABLE venta
 ADD CONSTRAINT fk_venta_empleado
 FOREIGN KEY (id_empleado)
 REFERENCES empleado(id_empleado);
-
---Llaves foraneas de Erick: detalle_venta, proveedor, categoria
-
 
 --Insertar los datos
