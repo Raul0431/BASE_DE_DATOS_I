@@ -172,6 +172,18 @@ FOREIGN KEY (id_inventario) REFERENCES inventario(id_inventario);
 
 --Stiven
 
+-- Venta -> Cliente
+ALTER TABLE venta
+ADD CONSTRAINT fk_venta_cliente
+FOREIGN KEY (id_cliente)
+REFERENCES cliente(id_cliente);
+
+-- Venta -> Empleado
+ALTER TABLE venta
+ADD CONSTRAINT fk_venta_empleado
+FOREIGN KEY (id_empleado)
+REFERENCES empleado(id_empleado);
+
 --Llaves foraneas de Erick: detalle_venta, proveedor, categoria
 
 
