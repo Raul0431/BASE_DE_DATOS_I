@@ -1,9 +1,9 @@
 --Cracion de tablas
 --Parte Raul
 
-drop table if exists ajuste_inventario;
+DROP TABLE IF EXISTS ajuste_inventario;
 
-create table ajuste_inventario (
+CREATE TABLE ajuste_inventario (
 	id_ajuste int primary key,
 	id_inventario int,
 	cantidad decimal(10,2),
@@ -11,9 +11,9 @@ create table ajuste_inventario (
 	fecha timestamp 
 );
 
-drop table if exists inventario;
+DROP TABLE IF EXISTS inventario;
 
-create table inventario(
+CREATE TABLE inventario(
 	id_inventario int primary key,
 	id_proveedor int,
 	id_producto int,
@@ -25,9 +25,9 @@ create table inventario(
 	ubicacion varchar(30)
 );
 
-drop table if exists factura_compra;
+DROP TABLE IF EXISTS factura_compra;
 
-create table factura_compra(
+CREATE TABLE factura_compra(
 	id_factura_compra int primary key,
 	fecha timestamp,
 	id_proveedor int,
@@ -41,9 +41,9 @@ create table factura_compra(
 	esatdo varchar(30)
 );
 
-drop table if exists detalle_factura_compra;
+DROP TABLE IF EXISTS detalle_factura_compra;
 
-create table detalle_factura_compra(
+CREATE TABLE detalle_factura_compra(
 	id_detalle_factura_compra int primary key,
 	id_factura_compra int,
 	id_producto int,
