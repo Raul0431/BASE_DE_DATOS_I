@@ -54,7 +54,94 @@ CREATE TABLE detalle_factura_compra(
 );
 
 --Parte Erick
+drop table if exists detalle_venta;
+
+create table detalle_venta(
+	id_detalle_venta int primary key,
+	id_venta int,
+	id_producto int,
+	cantidad int,
+	sub_total decimal(10,2),
+	id_inventario int
+);
+
+drop table if exists proveedor;
+
+create table proveedor(
+	id_proveedor int primary key,
+	nombre varchar(150),
+	telefono varchar(15),
+	correo varchar(150),
+	direccion varchar(200),
+	nit varchar(20),
+	nrc varchar(20),
+	giro varchar(20)
+);
+
+drop table if exists categoria;
+
+create table categoria(
+	id_categoria int primary key,
+	nombre_categoria varchar(100),
+	descripcion varchar(200)
+);
+
 --Parte Stiven
+	DROP TABLE IF EXISTS cliente;
+
+CREATE TABLE cliente(
+	id_cliente int,
+	nombre varchar(100),
+	apellido varchar(100),
+	telefono varchar(15),
+	correo varchar(150),
+	direccion varchar(200),
+	nit varchar(20),
+	nrc varchar(20),
+	giro varchar(150),
+	direccion_fiscal varchar(200)
+);
+
+	DROP TABLE IF EXISTS venta;
+
+CREATE TABLE  venta(
+	id_venta int,
+	fecha timestamp,
+	id_cliente int,
+	id_empleado int,
+	tipo_documento varchar(30),
+	num_factura varchar(30),
+	codigo varchar(30),
+	sub_total decimal(10,2),
+	iva decimal(10,2),
+	total decimal(10,2),
+	condicion_pago varchar(15),
+	plazo_dias int,
+	saldo decimal(10,2),
+	fecha_vencimiento timestamp
+);
+
+	DROP TABLE IF EXISTS empleado;
+
+CREATE TABLE empleado(
+	id_empleado int,
+	nombre varchar(100),
+	apellido varchar(100),
+	cargo varchar(50),
+	salario decimal(10,2),
+	fecha_contratacion timestamp;
+);
+
+	DROP TABLE IF EXISTS producto;
+	
+CREATE TABLE producto(
+	id_producto int,
+	nombre_producto varchar(150),
+	descripcion varchar(200),
+	id_categoria int,
+	stock_minimo double
+);
+
 
 --Llaves foraneas
 
