@@ -1,7 +1,17 @@
---Cracion de tablas
---Parte Raul
-
+--Eliminacion de tablas antes de crearlas
+DROP TABLE IF EXISTS detalle_venta;
+DROP TABLE IF EXISTS detalle_factura_compra;
 DROP TABLE IF EXISTS ajuste_inventario;
+DROP TABLE IF EXISTS venta;
+DROP TABLE IF EXISTS factura_compra;
+DROP TABLE IF EXISTS inventario;
+DROP TABLE IF EXISTS producto;
+DROP TABLE IF EXISTS proveedor;
+DROP TABLE IF EXISTS cliente;
+DROP TABLE IF EXISTS empleado;
+DROP TABLE IF EXISTS categoria;
+
+--Cracion de tablas
 
 CREATE TABLE ajuste_inventario (
 	id_ajuste int primary key,
@@ -10,8 +20,6 @@ CREATE TABLE ajuste_inventario (
 	tipo_ajuste varchar(30),
 	fecha timestamp 
 );
-
-DROP TABLE IF EXISTS inventario;
 
 CREATE TABLE inventario(
 	id_inventario int primary key,
@@ -24,8 +32,6 @@ CREATE TABLE inventario(
 	fecha_vencimiento timestamp,
 	ubicacion varchar(30)
 );
-
-DROP TABLE IF EXISTS factura_compra;
 
 CREATE TABLE factura_compra(
 	id_factura_compra int primary key,
@@ -41,8 +47,6 @@ CREATE TABLE factura_compra(
 	estado varchar(30)
 );
 
-DROP TABLE IF EXISTS detalle_factura_compra;
-
 CREATE TABLE detalle_factura_compra(
 	id_detalle_factura_compra int primary key,
 	id_factura_compra int,
@@ -53,9 +57,6 @@ CREATE TABLE detalle_factura_compra(
 	id_inventario int
 );
 
---Parte Erick
-DROP TABLE IF EXISTS detalle_venta;
-
 CREATE TABLE detalle_venta(
 	id_detalle_venta int primary key,
 	id_venta int,
@@ -65,8 +66,6 @@ CREATE TABLE detalle_venta(
 	id_inventario int
 );
 
-DROP TABLE IF EXISTS proveedor;
-
 CREATE TABLE proveedor(
 	id_proveedor int primary key,
 	nombre varchar(150),
@@ -75,19 +74,14 @@ CREATE TABLE proveedor(
 	direccion varchar(200),
 	nit varchar(20),
 	nrc varchar(20),
-	giro varchar(20)
+	giro varchar(150)
 );
-
-DROP TABLE IF EXISTS categoria;
 
 CREATE TABLE categoria(
 	id_categoria int primary key,
 	nombre_categoria varchar(100),
 	descripcion varchar(200)
 );
-
---Parte Stiven
-DROP TABLE IF EXISTS cliente;
 
 CREATE TABLE cliente(
 	id_cliente int primary key,
@@ -102,9 +96,7 @@ CREATE TABLE cliente(
 	direccion_fiscal varchar(200)
 );
 
-DROP TABLE IF EXISTS venta;
-
-CREATE TABLE  venta(
+CREATE TABLE venta(
 	id_venta int primary key,
 	fecha timestamp,
 	id_cliente int,
@@ -121,8 +113,6 @@ CREATE TABLE  venta(
 	fecha_vencimiento timestamp
 );
 
-DROP TABLE IF EXISTS empleado;
-
 CREATE TABLE empleado(
 	id_empleado int primary key,
 	nombre varchar(100),
@@ -131,8 +121,6 @@ CREATE TABLE empleado(
 	salario decimal(10,2),
 	fecha_contratacion timestamp
 );
-
-DROP TABLE IF EXISTS producto;
 	
 CREATE TABLE producto(
 	id_producto int primary key,
@@ -144,7 +132,6 @@ CREATE TABLE producto(
 
 
 --Llaves foraneas
---raul
 ALTER TABLE ajuste_inventario 
 ADD CONSTRAINT fk_ajuste_inventario_inv 
 FOREIGN KEY (id_inventario) 
@@ -174,7 +161,6 @@ ALTER TABLE detalle_factura_compra
 ADD CONSTRAINT fk_detalle_factura_compra_inv 
 FOREIGN KEY (id_inventario) 
 REFERENCES inventario(id_inventario);
---Erick
 
 ALTER TABLE detalle_venta
 ADD CONSTRAINT fk_detalle_venta_venta
@@ -188,18 +174,74 @@ ALTER TABLE detalle_venta
 ADD CONSTRAINT fk_detalle_venta_inventario
 FOREIGN KEY (id_inventario) REFERENCES inventario(id_inventario);
 
---Stiven
-
--- Venta -> Cliente
 ALTER TABLE venta
 ADD CONSTRAINT fk_venta_cliente
 FOREIGN KEY (id_cliente)
 REFERENCES cliente(id_cliente);
 
--- Venta -> Empleado
 ALTER TABLE venta
 ADD CONSTRAINT fk_venta_empleado
 FOREIGN KEY (id_empleado)
 REFERENCES empleado(id_empleado);
 
+ALTER TABLE producto
+ADD CONSTRAINT fk_producto_id_categoria
+FOREIGN KEY (id_categoria)
+REFERENCES categoria(id_categoria);
+
 --Insertar los datos
+
+--INSERTAR CATALOGOS PRINCIPALES (No dependen de otras tablas)
+
+INSERT INTO categoria (id_categoria, nombre_categoria, descripcion) VALUES
+(1, 'Computación', 'Laptops, computadoras de escritorio y servidores'),
+(2, 'Periféricos', 'Teclados, mouses, monitores y accesorios');
+
+-- Proveedores
+INSERT INTO proveedor (id_proveedor, nombre, telefono, correo, direccion, nit, nrc, giro) VALUES
+(1, 'Tech Distribuidora SA de CV', '2222-0000', 'ventas@techdist.com.sv', 'San Salvador', '0614-010190-101-1', '123456-7', 'Venta de equipo informático'),
+(2, 'Importaciones Globales', '2233-1111', 'contacto@imglobal.sv', 'Santa Tecla', '0614-020285-102-2', '765432-1', 'Importación de tecnología');
+
+-- Clientes
+INSERT INTO cliente (id_cliente, nombre, apellido, telefono, correo, direccion, nit, nrc, giro, direccion_fiscal) VALUES
+(1, 'Juan', 'Pérez', '7777-8888', 'juan.perez@gmail.com', 'Colonia Escalón', '0614-150595-101-5', NULL, 'Consumidor Final', 'Misma'),
+(2, 'Empresa Innovadora SA', '', '2500-3000', 'compras@innovadora.sv', 'Antiguo Cuscatlán', '0614-101010-103-3', '112233-4', 'Desarrollo de Software', 'Edificio Centro, San Salvador');
+
+-- Empleados
+INSERT INTO empleado (id_empleado, nombre, apellido, cargo, salario, fecha_contratacion) VALUES
+(1, 'Carlos', 'López', 'Vendedor', 450.00, '2025-01-15 08:00:00'),
+(2, 'Ana', 'Martínez', 'Gerente de Tienda', 850.00, '2024-06-01 08:00:00');
+
+--INSERTAR PRODUCTOS E INVENTARIO (Dependen de los catalogos)
+
+-- Productos (Dependen de Categoria)
+INSERT INTO producto (id_producto, nombre_producto, descripcion, id_categoria, stock_minimo) VALUES
+(1, 'Laptop Dell Inspiron 15', 'Laptop 15 pulgadas, 8GB RAM, 256GB SSD', 1, 5.00),
+(2, 'Mouse Inalámbrico Logitech', 'Mouse óptico USB', 2, 10.00);
+
+-- Inventario (Depende de Proveedor y Producto)
+INSERT INTO inventario (id_inventario, id_proveedor, id_producto, precio_venta, stock, fecha_entrada, fecha_salida, fecha_vencimiento, ubicacion) VALUES
+(1, 1, 1, 650.00, 15.00, '2026-02-01 10:00:00', NULL, NULL, 'Bodega A - Estante 1'),
+(2, 2, 2, 25.00, 50.00, '2026-02-15 14:30:00', NULL, NULL, 'Vitrina Principal');
+
+-- Ajustes de Inventario (Depende de Inventario)
+INSERT INTO ajuste_inventario (id_ajuste, id_inventario, cantidad, tipo_ajuste, fecha) VALUES
+(1, 2, -2.00, 'Pérdida/Dañado', '2026-02-28 09:00:00');
+
+--INSERTAR TRANSACCIONES (Compras y Ventas)
+
+-- Factura de Compra (Depende de Proveedor)
+INSERT INTO factura_compra (id_factura_compra, fecha, id_proveedor, tipo_documento, num_factura, codigo, es_credito_fiscal, total, sub_total, iva, estado) VALUES
+(1, '2026-02-01 09:30:00', 1, 'Crédito Fiscal', 'CCF-00150', 'COMP-001', true, 5650.00, 5000.00, 650.00, 'Pagada');
+
+-- Detalle Factura Compra (Depende de Factura, Producto, Inventario)
+INSERT INTO detalle_factura_compra (id_detalle_factura_compra, id_factura_compra, id_producto, cantidad, precio_unitario, sub_total, id_inventario) VALUES
+(1, 1, 1, 10.00, 500.00, 5000.00, 1);
+
+-- Venta (Depende de Cliente y Empleado)
+INSERT INTO venta (id_venta, fecha, id_cliente, id_empleado, tipo_documento, num_factura, codigo, sub_total, iva, total, condicion_pago, plazo_dias, saldo, fecha_vencimiento) VALUES
+(1, '2026-03-01 11:15:00', 1, 1, 'Factura Consumidor Final', 'FCF-0001', 'VEN-001', 575.22, 74.78, 650.00, 'Contado', 0, 0.00, '2026-03-01 11:15:00');
+
+-- Detalle Venta (Depende de Venta, Producto, Inventario)
+INSERT INTO detalle_venta (id_detalle_venta, id_venta, id_producto, cantidad, sub_total, id_inventario) VALUES
+(1, 1, 1, 1, 650.00, 1);
