@@ -172,4 +172,7 @@ FOREIGN KEY (id_inventario) REFERENCES inventario(id_inventario);
 
 --Stiven
 
+--Llaves foraneas de Erick: detalle_venta, proveedor, categoria
+
+
 --Insertar los datos
