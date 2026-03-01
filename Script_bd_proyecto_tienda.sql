@@ -145,4 +145,7 @@ CREATE TABLE producto(
 
 --Llaves foraneas
 
+--Llaves foraneas de Erick: detalle_venta, proveedor, categoria
+
+
 --Insertar los datos
