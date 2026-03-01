@@ -147,27 +147,33 @@ CREATE TABLE producto(
 --raul
 ALTER TABLE ajuste_inventario 
 ADD CONSTRAINT fk_ajuste_inventario_inv 
-FOREIGN KEY (id_inventario) REFERENCES inventario(id_inventario);
+FOREIGN KEY (id_inventario) 
+REFERENCES inventario(id_inventario);
 
 ALTER TABLE inventario 
 ADD CONSTRAINT fk_inventario_proveedor 
-FOREIGN KEY (id_proveedor) REFERENCES proveedor(id_proveedor);
+FOREIGN KEY (id_proveedor) 
+REFERENCES proveedor(id_proveedor);
 
 ALTER TABLE inventario 
 ADD CONSTRAINT fk_inventario_producto 
-FOREIGN KEY (id_producto) REFERENCES producto(id_producto);
+FOREIGN KEY (id_producto) 
+REFERENCES producto(id_producto);
 
 ALTER TABLE factura_compra  
 ADD CONSTRAINT fk_factura_compra_proveedor 
-FOREIGN KEY (id_proveedor) REFERENCES proveedor(id_proveedor);
+FOREIGN KEY (id_proveedor)
+REFERENCES proveedor(id_proveedor);
 
 ALTER TABLE detalle_factura_compra   
 ADD CONSTRAINT fk_detalle_factura_compra_factura 
-FOREIGN KEY (id_factura_compra) REFERENCES factura_compra(id_factura_compra);
+FOREIGN KEY (id_factura_compra) 
+REFERENCES factura_compra(id_factura_compra);
 
 ALTER TABLE detalle_factura_compra   
 ADD CONSTRAINT fk_detalle_factura_compra_inv 
-FOREIGN KEY (id_inventario) REFERENCES inventario(id_inventario);
+FOREIGN KEY (id_inventario) 
+REFERENCES inventario(id_inventario);
 --Erick
 
 --Stiven
